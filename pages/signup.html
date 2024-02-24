@@ -18,9 +18,16 @@
 
     <div class="main-body">
         <form class="form-container">
-            <h2>User Login</h2>
+            <h2>Sign Up</h2>
     
             <input type="text" id="username" class="form-input" required placeholder="Username">
+            <input type="text" id="email" class="form-input" required placeholder="Email">
+            <div class="send-code-container">
+                <div style="display: flex; flex-direction: column; color:#007bff;">
+                    <input type="text" id="verifyCode" class="form-input" required placeholder="Verification Code">
+                    <div id="sendforgotcode" class="send-code" onclick="sendCode()">Send Code</div>
+                </div>
+            </div>
             <input type="password" id="password" class="form-input" required placeholder="Password">
     
             <div class="container1">
@@ -30,12 +37,12 @@
                 </div>
             </div>
     
-            <input class="form-button" type="submit" value="Login" onclick="showSnackbar('showInvalidUsername')">
+            <input class="form-button" type="submit" value="Sign Up" onclick="showSnackbar('showInvalidVerification')">
     
             <a class="forgot-password" href="forgot_password.html">Forgot Password?</a>
     
             <div class="form-nav">
-                Do not have an account? <a href="phone.html">Sign Up</a>
+                Back to <a href="login.html">Log In</a>
             </div>
         </form>  
         
@@ -51,9 +58,11 @@
         <popupmodal-component modalId="privacy"><div id="privacyContent"></div></popupmodal-component>
         <popupmodal-component modalId="disclaimer"><div id="disclaimerContent"></div></popupmodal-component>
 
+        <snackbar-component snackbarId="showInvalidEmail">Invalid Email</snackbar-component>
+        <snackbar-component snackbarId="showInvalidVerification">Invalid Email Verification Code</snackbar-component>
         <snackbar-component snackbarId="showInvalidUsername">Invalid Username</snackbar-component>
-        <snackbar-component snackbarId="showInvalidPassword">Invalid Password</snackbar-component>
-        <snackbar-component snackbarId="showInvalidPassword">Invalid Captcha</snackbar-component>
+        <snackbar-component snackbarId="showWeakPassword">Password has to be 8 characters</snackbar-component>
+        <snackbar-component snackbarId="showInvalidCaptcha">Invalid Captcha</snackbar-component>
 
     </div>
 

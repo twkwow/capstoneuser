@@ -1,39 +1,189 @@
-html, body {
-    padding: 0;
-    margin: 0;
+h2 {
+    font-size: 20px;
 }
 
-.main-body {
-    height: 300vh;
-    border: 1px solid red;
-}
-
-.footer-body {
-    height: 10vh;
-    border: 1px solid blue;
-    width: 100%;
-    bottom: 0;
-    position: fixed;
-    display: block;
-    background-color: white;
-}
-
-.footer {
-    display: grid;
-    grid-template-columns:50% 50%;
-    height: 100%;
-}
-
-.settings-container, .logout-container {
-    border: 1px solid black;
-    display: flex;
+.logo-container {
+    margin-top: 40px;
+    margin-bottom: 40px;
     align-items: center;
-    justify-content: center;
+    text-align: center;
 }
 
+.form-container {
+    display: flex;
+    flex-direction: column;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width:250px;
+}
 
+.form-input {
+    padding: 10px;
+    margin-bottom: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    display: flex; flex-direction: column;
+}
 
-.header-content {
-    border-bottom: 1px solid black;
+.container1 {
+    display: flex;
+}
+
+#captcha-img {
+    width: 100px;
+}
+
+#captcha-container {
+    margin-left: 10px;
+}
+
+#captcha-input {
+    padding: 10px;
+    margin-bottom: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100px;
+    display: flex; flex-direction: column;
+}
+
+#captcha-container, #captcha-input {
+    display: inline-block;
+}
+
+.form-button {
+    padding: 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.form-nav {
+    margin-top: 20px;
+    color: #0000007e;
+    font-size: 13px;
+}
+
+.forgot-password {
+    margin-top: 20px;
+    text-align: end;
+    color: #007bff;
+    text-decoration: none;
+    font-size: 13px;
+}
+
+.footer-terms {
+    font-size: 10px;
+    display: flex;
+    width: 250px;
+    justify-content: center;
+    background-color: white;
+    border-radius: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 10px;
+    margin-top: 20px;
+    color: black;
+    border-radius: 30px;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
+}
+
+.popup-backdrop {
+    background-color: rgb(128, 128, 128, 0.8); /* Grey color with 80% opacity */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed; /* Fixed position to cover the entire viewport */
+    top: 0;
+    left: 0;
+    height: 100vh; /* Full height of the viewport */
+    width: 100%; /* Full width of the viewport */
+    z-index: 999; /* Ensure the backdrop is above other content */
+    visibility: hidden; /* Initially hidden */
+}
+
+.popup-container {
+    background-color: white;
+    width: 300px;
+    border-radius: 10px;
+    height: auto; /* Adjust height based on content */
+    max-height: 80vh; /* Limit maximum height to 80% of viewport height */
+    overflow-y: auto; /* Add vertical scroll if content overflows */
+    padding: 20px;
+}
+
+.phone-text {
+    text-align: left;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: 15px;
+    color: grey;
+}
+
+.x-button {
+    float: right;
+    color: lightgrey;
+    font-size: 20px;
+    width: 20px;
+    padding: 5px;
+}
+
+.snackbar-container {
     width: 100%;
+}
+
+.snackbar {
+    visibility: hidden;
+    min-width: 250px;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    border-radius: 2px;
+    padding: 16px;
+    z-index:5;
+    top: 30px;
+    font-size: 17px;
+    position: fixed;
+    margin-left: 9%;
+}
+  
+.show {
+    visibility: visible;
+    -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+
+@-webkit-keyframes fadein {
+    from {top: 0; opacity: 0;} 
+    to {top: 30px; opacity: 1;}
+}
+@keyframes fadein {
+    from {top: 0; opacity: 0;}
+    to {top: 30px; opacity: 1;}
+}
+@-webkit-keyframes fadeout {
+    from {top: 30px; opacity: 1;} 
+    to {top: 0; opacity: 0;}
+}
+@keyframes fadeout {
+    from {top: 30px; opacity: 1;}
+    to {top: 0; opacity: 0;}
+}
+
+.send-code-container {
+    position: relative;
+}
+
+.send-code {
+    position: absolute;
+    right: 0;
+    padding: 10px;
+    background-color: #eeeeee00;
+    cursor: pointer;
 }
