@@ -1,0 +1,46 @@
+html, body {
+    padding: 0;
+    margin: 0;
+}
+
+.main-body {
+    height: 100vh;
+}
+
+.announcements-textarea {
+    resize: vertical;
+    width: 98%;
+    white-space: pre-wrap;
+}
+
+.send-button {
+    margin-top: 5px;
+    width: 100%;
+    text-align: center;
+}
+
+.send-button button {
+    width: 100px;
+    height: 30px;
+    color: white;
+    background-color: #007bff;
+    border: 1px solid;
+    border-radius: 5px;
+}
+
+.notify-status-container {
+    background-color: white;
+    height: 220px;
+}
+
+.notify-container {
+    margin: 15px;
+    padding-top: 10px;
+}
+
+.footer-body-filler2 {
+    height: 12vh;
+    width: 100%;
+    bottom: 0;
+    background-color: lightgrey;
+}

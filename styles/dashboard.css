@@ -11,7 +11,7 @@ html, body {
     height: 10vh;
     width: 100%;
     bottom: 0;
-    background-color: red;
+    background-color: lightgrey;
 }
 
 .dashboard-container, .sos-container, .profile-container {
@@ -36,11 +36,11 @@ html, body {
     height: 10vh;
 }
 
-.logo-container {
+.logo-container-oh {
     position: absolute;
 }
 
-.logo-container img {
+.logo-container-oh img {
     width: 70px;
 }
 

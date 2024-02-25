@@ -15,7 +15,7 @@
     <div class="main-body">
 
         <div class="header-content">
-            <div class="logo-container">
+            <div class="logo-container-oh">
                 <img src="/resources/Secureholdsmall.png" alt="noImg">
             </div>
             <div class="title-container">
@@ -178,7 +178,7 @@
 
     <div class="footer-body">
         <div class="footer">
-            <div class="dashboard-container" style="background-color: lightgrey;">
+            <div class="dashboard-container" onclick="redirectToDashboard()" style="background-color: lightgrey;">
                 <div class="icon-lol">
                     <i class="fa-solid fa-table-columns"></i>
                 </div>
@@ -187,7 +187,7 @@
                 </div>
             </div>
 
-            <div class="sos-container">
+            <div class="sos-container" onclick="redirectToSOS()">
                 <div class="icon-lol">
                     <i class="fa-solid fa-hand-holding-medical"></i>
                 </div>
@@ -196,7 +196,7 @@
                 </div>
             </div>
 
-            <div class="profile-container">
+            <div class="profile-container" onclick="redirectToProfile()">
                 <div class="icon-lol">
                     <i class="fa-solid fa-user"></i>
                 </div>
@@ -211,3 +211,15 @@
 
 </body>
 </html>
+
+<script>
+    function redirectToDashboard() {
+        window.location.href = 'dashboard.html';
+    }
+    function redirectToSOS() {
+        window.location.href = 'sos.html';
+    }
+    function redirectToProfile() {
+        window.location.href = 'profile.html';
+    }
+</script>

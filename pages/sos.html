@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+    <link rel="stylesheet" href="/styles/dashboard.css">
+    <link rel="stylesheet" href="/styles/styles.css">
+    <link rel="stylesheet" href="/styles/footer.css">
+    <link rel="stylesheet" href="/styles/sos.css">
+    <link rel="stylesheet" href="/styles/logincomponent.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+    <script src="/components/snackbarNotification.js" type="text/javascript" defer></script>
+</head>
+
+<body>
+
+    <div class="sos-main-body">
+
+        <div class="header-content">
+            <div class="logo-container-oh">
+                <img src="/resources/Secureholdsmall.png" alt="noImg">
+            </div>
+            <div class="title-container">
+                <div class="title-text">
+                    <span>Emergency</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-content-filler">
+        </div>
+
+        <div class="content">
+
+            <div class="announcement-container">
+                <div class="ann-title-container">
+                    <div class="ann-logo">
+                        <i class="fa-solid fa-phone"></i>
+                    </div>
+                    <div class="ann-title">
+                        Emergency Numbers
+                    </div>
+                    <div class="ann-content">
+                        <div class="ann-content-container">
+                            <div class="ann-send-title">
+                                <span>Police</span>
+                            </div>
+                            <div class="ann-send-content">
+                                <span style="color: blue" onclick="openPhone('999')">999</span>
+                            </div>
+                            <div class="ann-send-title">
+                                <span>Ambulance</span>
+                            </div>
+                            <div class="ann-send-content">
+                                <span style="color: blue" onclick="openPhone('999')">999</span>
+                            </div>
+                            <div class="ann-send-title">
+                                <span>Firefighter</span>
+                            </div>
+                            <div class="ann-send-content">
+                                <span style="color: blue" onclick="openPhone('999')">999</span>
+                            </div>
+                            <div class="ann-send-title">
+                                <span>Securehold Hotline</span>
+                            </div>
+                            <div class="ann-send-content">
+                                <span style="color: blue" onclick="openPhone('+60183263533')">+60183263533</span>
+                            </div>
+                            <div class="ann-send-title">
+                                <span>BeFriendersKL Hotline</span>
+                            </div>
+                            <div class="ann-send-content">
+                                <span style="color: blue" onclick="openPhone('+0376272929')">+0376272929</span>
+                            </div>
+                            <div class="ann-send-title">
+                                <span>ShelterHome Hotline</span>
+                            </div>
+                            <div class="ann-send-content">
+                                <span style="color: blue" onclick="openPhone('+60379550663')">(+603)-7955 0663</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="notify-status-container">
+                <div class="notify-container">
+                    <div class="ann-logo">
+                        <i class="fa-regular fa-paper-plane"></i>
+                    </div>
+                    <div class="ann-title">
+                        Notify Admin
+                    </div>
+                    <div class="status-content">
+                        <div class="ann-content-container">
+                            <div class="locker-text-content">
+                                <div class="text-field">
+                                    <textarea id="content" class="announcements-textarea" rows="6" placeholder="Add your text"></textarea>
+                                </div>
+                                <div class="send-button" >
+                                    <button onclick="showSnackbar('showSentMsg')">Submit</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-body-filler2">
+            </div>
+        </div>
+    </div>
+    
+
+    <div class="footer-body">
+        <div class="footer">
+            <div class="dashboard-container" onclick="redirectToDashboard()">
+                <div class="icon-lol">
+                    <i class="fa-solid fa-table-columns"></i>
+                </div>
+                <div class="text-lol">
+                    <span>Dashboard</span>
+                </div>
+            </div>
+
+            <div class="sos-container" onclick="redirectToSOS()" style="background-color: lightgrey;">
+                <div class="icon-lol">
+                    <i class="fa-solid fa-hand-holding-medical"></i>
+                </div>
+                <div class="text-lol">
+                    <span>SOS</span>
+                </div>
+            </div>
+
+            <div class="profile-container" onclick="redirectToProfile()">
+                <div class="icon-lol">
+                    <i class="fa-solid fa-user"></i>
+                </div>
+                <div class="text-lol">
+                    <span>Profile</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <snackbar-component snackbarId="showSentMsg">Message sent to admin</snackbar-component>
+
+
+
+</body>
+</html>
+
+<script>
+    function redirectToDashboard() {
+        window.location.href = 'dashboard.html';
+    }
+    function redirectToSOS() {
+        window.location.href = 'sos.html';
+    }
+    function redirectToProfile() {
+        window.location.href = 'profile.html';
+    }
+    function openPhone(phoneNumber) {
+    window.open("tel:" + phoneNumber);
+}
+</script>

@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+    <link rel="stylesheet" href="/styles/dashboard.css">
+    <link rel="stylesheet" href="/styles/styles.css">
+    <link rel="stylesheet" href="/styles/tnc.css">
+    <link rel="stylesheet" href="/styles/footer.css">
+    <link rel="stylesheet" href="/styles/sos.css">
+    <link rel="stylesheet" href="/styles/logincomponent.css">
+    <link rel="stylesheet" href="/styles/profile.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+    <script src="/components/snackbarNotification.js" type="text/javascript" defer></script>
+    <script src="/components/popupModal.js" type="text/javascript" defer></script>
+</head>
+
+<body>
+
+    <div class="sos-main-body">
+
+        <div class="header-content">
+            <div class="logo-container-oh">
+                <img src="/resources/Secureholdsmall.png" alt="noImg">
+            </div>
+            <div class="title-container">
+                <div class="title-text">
+                    <span>Me</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-content-filler">
+        </div>
+
+        <div class="profile-content">
+            <div class="profile-icon-container">
+                <div class="profile-icon">
+                    <i class="fa-regular fa-face-smile"></i>
+                </div>
+            </div>
+
+            <div class="why-need-you">
+                <div class="profile-content-container">
+                    <div class="left-container-lol">
+                        <div class="profile-text">
+                            <span> Login Username</span>
+                        </div>
+                        <div class="profile-text">
+                            <span> Email</span>
+                        </div>
+                        <div class="profile-text">
+                            <span> Phone No.</span>
+                        </div>
+                        <div class="profile-text">
+                            <span> Assigned Locker</span>
+                        </div>
+                        <div class="profile-text">
+                            <span> Last Logged In</span>
+                        </div>
+                        <div class="profile-text">
+                            <span> User Type</span>
+                        </div>
+                    </div>
+                    <div class="right-container-lol">
+                        <div class="profile-text-right">
+                            <span>USER_ID_LOL</span>
+                        </div>
+                        <div class="profile-text-right">
+                            <span>wenkanglol444@gmail.com</span>
+                        </div>
+                        <div class="profile-text-right">
+                            <span>0183333333</span>
+                        </div>
+                        <div class="profile-text-right">
+                            <span>LOCKER_ID_LOL</span>
+                        </div>
+                        <div class="profile-text-right">
+                            <span>24 February 2024, 5:55pm</span>
+                        </div>
+                        <div class="profile-text-right">
+                            <span>Locker User</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="change-password-ez" onclick="showPopup('changepassword', true)">
+                    <button>Change Password</button>
+                </div>
+                <div class="logout-ez">
+                    <button>Logout</button>
+                </div>
+            </div>
+            
+            <popupmodal-component modalId="changepassword">
+                <div class="x-button-container">
+                    <div class="x-button" onclick="showPopup('changepassword', false)">
+                        <i class="fa-solid fa-x"></i>
+                    </div>
+                </div>
+                <strong>Change Password</strong>
+                <div class="password-field-container">
+                    <input type="password" id="current-field" placeholder="Current Password">
+                </div>
+                <div class="password-field-container">
+                    <input type="password" id="new-field" placeholder="New Password">
+                </div>
+                <div class="password-field-container">
+                    <input type="password" id="confirm-field" placeholder="Confirm New Password">
+                </div>
+                <div class="password-reset-btn" onclick="showSnackbar('showPasswordReset'); showPopup('changepassword', false)">
+                    <button>Rest</button>
+                </div>
+            </popupmodal-component>
+
+            <footer class="footer-terms">
+                <span onclick="showPopup('tos', true)">Terms of Services</span>
+                &nbsp; | &nbsp;
+                <span onclick="showPopup('privacy', true)">Privacy Policy</span>
+                &nbsp; | &nbsp;
+                 <span onclick="showPopup('disclaimer', true)">Disclaimer</span>      	
+            </footer>
+
+            <popupmodal-component modalId="changepassword"></popupmodal-component>
+            <popupmodal-component modalId="tos"><div id="tocContent"></div></popupmodal-component>
+            <popupmodal-component modalId="privacy"><div id="privacyContent"></div></popupmodal-component>
+            <popupmodal-component modalId="disclaimer"><div id="disclaimerContent"></div></popupmodal-component>
+
+            <snackbar-component snackbarId="showPasswordFieldEmpty">Fields Cannot Be Empty</snackbar-component>
+            <snackbar-component snackbarId="showPasswordReset">Successfully reset password</snackbar-component>
+        </div>
+
+
+
+    </div>
+    
+
+    <div class="footer-body">
+        <div class="footer">
+            <div class="dashboard-container" onclick="redirectToDashboard()">
+                <div class="icon-lol">
+                    <i class="fa-solid fa-table-columns"></i>
+                </div>
+                <div class="text-lol">
+                    <span>Dashboard</span>
+                </div>
+            </div>
+
+            <div class="sos-container" onclick="redirectToSOS()">
+                <div class="icon-lol">
+                    <i class="fa-solid fa-hand-holding-medical"></i>
+                </div>
+                <div class="text-lol">
+                    <span>SOS</span>
+                </div>
+            </div>
+
+            <div class="profile-container" onclick="redirectToProfile" style="background-color: lightgrey;">
+                <div class="icon-lol">
+                    <i class="fa-solid fa-user"></i>
+                </div>
+                <div class="text-lol">
+                    <span>Profile</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+</body>
+</html>
+
+<script src="/scripts/footerHTML.js"></script>
+<script>
+    window.onload = () => {
+        document.getElementById('tocContent').innerHTML = tnc
+        document.getElementById('privacyContent').innerHTML = privacy
+        document.getElementById('disclaimerContent').innerHTML = disclaimer
+
+
+        const params = new URLSearchParams(location.search);
+        const prevEvent = params.get("event");
+        if (prevEvent) {
+            showSnackbar(prevEvent)
+        }
+    };
+</script>
+
+<script>
+    function redirectToDashboard() {
+        window.location.href = 'dashboard.html';
+    }
+    function redirectToSOS() {
+        window.location.href = 'sos.html';
+    }
+    function redirectToProfile() {
+        window.location.href = 'profile.html';
+    }
+    function openPhone(phoneNumber) {
+    window.open("tel:" + phoneNumber);
+}
+</script>
+
