@@ -3,11 +3,12 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height" />
     <link rel="stylesheet" href="/styles/logincomponent.css">
     <link rel="stylesheet" href="/styles/tnc.css">
     <link rel="stylesheet" href="/styles/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+    <link rel="icon" href="/resources/Secureholdsmall.png" type="image/png">
     <script src="/components/popupModal.js" type="text/javascript" defer></script>
     <script src="/components/snackbarNotification.js" type="text/javascript" defer></script>
 </head>
@@ -18,13 +19,13 @@
     </header>
 
     <div class="main-body">
-        <form class="form-container">
+        <form class="form-container" onsubmit="submitPhoneNum(event)">
             <h2>Sign Up</h2>
             <div class="phone-text">
                 <span>Please Enter Your Phone number</span>
             </div>
             <input type="text" id="phone" class="form-input" required placeholder="Phone Number">
-            <input class="form-button" type="submit" value="Continue" onclick="showSnackbar('showInvalidUsername')">
+            <input class="form-button" type="submit" value="Continue">
             <div class="form-nav">
                 Back to <a href="login.html">Login</a>
             </div>
@@ -42,29 +43,51 @@
         <popupmodal-component modalId="privacy"><div id="privacyContent"></div></popupmodal-component>
         <popupmodal-component modalId="disclaimer"><div id="disclaimerContent"></div></popupmodal-component>
 
-        <snackbar-component snackbarId="showInvalidUsername">Invalid Phone Number</snackbar-component>
-
+        <snackbar-component snackbarId="showInvalidPhone">Invalid Phone Number</snackbar-component>
+        <snackbar-component snackbarId="showAlreadyRegistered">Account Already Exist</snackbar-component>
+        <snackbar-component snackbarId="apiError">API Error</snackbar-component>
     </div>
 
 </body>
 </html>
 
-<script src="/captcha.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="/app.js"></script>
+<script src="/scripts/captcha.js"></script>
 <script src="/scripts/footerHTML.js"></script>
 
 <script>
     window.onload = () => {
-        generateCaptcha()
-
         document.getElementById('tocContent').innerHTML = tnc
         document.getElementById('privacyContent').innerHTML = privacy
         document.getElementById('disclaimerContent').innerHTML = disclaimer
-
-
-        const params = new URLSearchParams(location.search);
-        const prevEvent = params.get("event");
-        if (prevEvent) {
-            showSnackbar(prevEvent)
-        }
     };
+
+    async function submitPhoneNum(event) {
+        event.preventDefault();
+
+        const phoneNum = document.getElementById("phone").value
+        const phoneNumForm = new FormData()
+        phoneNumForm.append("phone", phoneNum)
+
+        await axios.post(apiLink + "users/users/checkPhoneNumExist", phoneNumForm)
+        .then((resp) => {
+            console.log(resp)
+            if (resp.data.status == 200) {
+                pageRouting("signup.html?phone=" + phoneNum)
+            }
+            else if (resp.data.status == 401) {
+                showSnackbar("showInvalidPhone")
+            }
+            else if (resp.data.status == 409) {
+                showSnackbar("showAlreadyRegistered")
+            }
+        })
+        .catch((e) => {
+            console.log(e)
+            showSnackbar("apiError")
+        })
+
+    }
+
 </script>

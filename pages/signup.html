@@ -3,11 +3,12 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height" />
     <link rel="stylesheet" href="/styles/logincomponent.css">
     <link rel="stylesheet" href="/styles/tnc.css">
     <link rel="stylesheet" href="/styles/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+    <link rel="icon" href="/resources/Secureholdsmall.png" type="image/png">
     <script src="/components/popupModal.js" type="text/javascript" defer></script>
     <script src="/components/snackbarNotification.js" type="text/javascript" defer></script>
 </head>
@@ -18,7 +19,7 @@
     </header>
 
     <div class="main-body">
-        <form class="form-container">
+        <form class="form-container" onsubmit="signup(event)">
             <h2>Sign Up</h2>
     
             <input type="text" id="username" class="form-input" required placeholder="Username">
@@ -38,7 +39,7 @@
                 </div>
             </div>
     
-            <input class="form-button" type="submit" value="Sign Up" onclick="showSnackbar('showInvalidVerification')">
+            <input class="form-button" type="submit" value="Sign Up">
     
             <a class="forgot-password" href="forgot_password.html">Forgot Password?</a>
     
@@ -59,18 +60,32 @@
         <popupmodal-component modalId="privacy"><div id="privacyContent"></div></popupmodal-component>
         <popupmodal-component modalId="disclaimer"><div id="disclaimerContent"></div></popupmodal-component>
 
+        <popupmodal-component modalId="codeSent">A code has been sent to your email !</popupmodal-component>
+        <popupmodal-component modalId="signupSuccess">
+            You have successfully signed up for your account ! 
+            <br> <br> 
+            Returning to login page in 3 seconds...
+        </popupmodal-component>
+
+
         <snackbar-component snackbarId="showInvalidEmail">Invalid Email</snackbar-component>
-        <snackbar-component snackbarId="showInvalidVerification">Invalid Email Verification Code</snackbar-component>
         <snackbar-component snackbarId="showInvalidUsername">Invalid Username</snackbar-component>
         <snackbar-component snackbarId="showWeakPassword">Password has to be 8 characters</snackbar-component>
         <snackbar-component snackbarId="showInvalidCaptcha">Invalid Captcha</snackbar-component>
 
+        <snackbar-component snackbarId="emailInUse">Email already in use</snackbar-component>
+        <snackbar-component snackbarId="invalidCode">Invalid Email Verification Code</snackbar-component>
+        <snackbar-component snackbarId="noCode">Please press send code to verify your email</snackbar-component>
+        <snackbar-component snackbarId="apiError">API Error</snackbar-component>
     </div>
 
 </body>
 </html>
 
-<script src="/captcha.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js"></script>
+<script src="/app.js"></script>
+<script src="/scripts/captcha.js"></script>
 <script src="/scripts/footerHTML.js"></script>
 
 <script>
@@ -80,12 +95,65 @@
         document.getElementById('tocContent').innerHTML = tnc
         document.getElementById('privacyContent').innerHTML = privacy
         document.getElementById('disclaimerContent').innerHTML = disclaimer
+    };
 
+    function sendCode() {
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const email = document.getElementById("email").value
+
+        if (!emailPattern.test(email)) {
+            return showSnackbar("showInvalidEmail")
+        }
+             
+        const emailForm = new FormData()
+        emailForm.append("email", email)
+        axios.post(apiLink + "users/users/sendCode", emailForm)
+        .then( (resp) => {
+            return showPopup("codeSent", true)
+        })
+        .catch( (error) => {
+            console.log("API Error: " + error)
+            showSnackbar("apiError")
+        })
+    }
+
+    async function signup(event) {
+        event.preventDefault();
 
         const params = new URLSearchParams(location.search);
-        const prevEvent = params.get("event");
-        if (prevEvent) {
-            showSnackbar(prevEvent)
-        }
-    };
+        const phone = params.get("phone")
+        
+        const username = event.target.querySelector("#username").value;
+        const email = event.target.querySelector("#email").value;
+        const password = event.target.querySelector("#password").value;
+        const code = event.target.querySelector("#verifyCode").value;
+
+        const signupForm = new FormData()
+        signupForm.append("username", username)
+        signupForm.append("email", email)
+        signupForm.append("password", password)
+        signupForm.append("code", code)
+        signupForm.append("phone", phone)
+
+        axios.post(apiLink + "users/users/signup", signupForm)
+        .then( (resp) => {
+            console.log(resp)
+            switch(resp.data.status) {
+                case 200: 
+                (async () => {
+                    showPopup('signupSuccess', true)
+                    await new Promise(resolve => setTimeout(resolve, 3000));
+                    pageRouting("login.html"); 
+                })()
+                    break;
+                case 409: showSnackbar("emailInUse"); break;
+                case 401: showSnackbar("invalidCode"); break;
+                case 400: showSnackbar("noCode"); break;
+            }
+        })
+        .catch( (error) => {
+            console.log("API Error: " + error)
+            showSnackbar("apiError")
+        })
+    }
 </script>

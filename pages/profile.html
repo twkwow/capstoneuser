@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height" />
     <link rel="stylesheet" href="/styles/dashboard.css">
     <link rel="stylesheet" href="/styles/styles.css">
     <link rel="stylesheet" href="/styles/tnc.css">
@@ -63,25 +63,12 @@
                         </div>
                     </div>
                     <div class="right-container-lol">
-                        <div class="profile-text-right">
-                            <span>Then wen</span>
-                        </div>
-                        <div class="profile-text-right">
-                            <span>USER_ID_LOL</span>
-                        </div>
-                        <div class="profile-text-right">
-                            <span>wenkanglol444@gmail.com</span>
-                        </div>
-                        <div class="profile-text-right">
-                            <span>0183333333</span>
-                        </div>
-                        <div class="profile-text-right">
-                            <span>LOCKER_ID_LOL</span>
-                        </div>
-                        <div class="profile-text-right">
-                            <span>24 February 2024, 5:55pm</span>
-                        </div>
-
+                        <div id="name" class="profile-text-right"></div>
+                        <div id="username" class="profile-text-right"></div>
+                        <div id="email" class="profile-text-right"></div>
+                        <div id="phone" class="profile-text-right"></div>
+                        <div id="locker" class="profile-text-right"></div>
+                        <div id="lastLogged" class="profile-text-right"></div>
                     </div>
                 </div>
 
@@ -89,7 +76,7 @@
                     <button>Change Password</button>
                 </div>
                 <div class="logout-ez">
-                    <button>Logout</button>
+                    <button onclick="logout()">Logout</button>
                 </div>
             </div>
             
@@ -109,8 +96,8 @@
                 <div class="password-field-container">
                     <input type="password" id="confirm-field" placeholder="Confirm New Password">
                 </div>
-                <div class="password-reset-btn" onclick="showSnackbar('showPasswordReset'); showPopup('changepassword', false)">
-                    <button>Rest</button>
+                <div class="password-reset-btn" onclick="resetPassword()">
+                    <button>Reset</button>
                 </div>
             </popupmodal-component>
 
@@ -129,10 +116,11 @@
 
             <snackbar-component snackbarId="showPasswordFieldEmpty">Fields Cannot Be Empty</snackbar-component>
             <snackbar-component snackbarId="showPasswordReset">Successfully reset password</snackbar-component>
+            <snackbar-component snackbarId="newPassNoMatch">New password not matching</snackbar-component>
+            <snackbar-component snackbarId="invalidPass">invalidPassword</snackbar-component>
+            <snackbar-component snackbarId="apiError">API error</snackbar-component>
+
         </div>
-
-
-
     </div>
     
 
@@ -174,23 +162,62 @@
 </body>
 </html>
 
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="/app.js"></script>
 <script src="/scripts/footerHTML.js"></script>
+
 <script>
-    window.onload = () => {
-        document.getElementById('tocContent').innerHTML = tnc
-        document.getElementById('privacyContent').innerHTML = privacy
-        document.getElementById('disclaimerContent').innerHTML = disclaimer
+    loadData()
+    document.getElementById('tocContent').innerHTML = tnc
+    document.getElementById('privacyContent').innerHTML = privacy
+    document.getElementById('disclaimerContent').innerHTML = disclaimer
 
+    async function loadData() {
+        await checkToken()
+        document.getElementById("name").innerHTML = userProfile.name
+        document.getElementById("username").innerHTML = userProfile.web_data.username
+        document.getElementById("email").innerHTML = userProfile.web_data.email
+        document.getElementById("phone").innerHTML = userProfile.phone
+        document.getElementById("locker").innerHTML = userProfile.locker_id._id
+        document.getElementById("lastLogged").innerHTML = userProfile.last_login
+    }
 
-        const params = new URLSearchParams(location.search);
-        const prevEvent = params.get("event");
-        if (prevEvent) {
-            showSnackbar(prevEvent)
+    async function logout() {
+        await axios.get(apiLink + "clearToken", {withCredentials: true})
+        .then( (resp) => {
+            pageRouting("login.html?event=logout")
+        })
+    }
+
+    async function resetPassword() {
+        const curPass = document.getElementById("current-field").value
+        const newPass = document.getElementById("new-field").value
+        const newPassRe = document.getElementById("confirm-field").value
+
+        if (curPass == "" || newPass == "" || newPassRe == "") {
+            return showSnackbar("showPasswordFieldEmpty")
         }
-    };
-</script>
+        if (newPass != newPassRe) {
+            return showSnackbar("newPassNoMatch")
+        }
+        
+        const passwordForm = new FormData()
+        passwordForm.append("curPass", curPass)
+        passwordForm.append("newPass", newPass)
+        await axios.post(apiLink + "users/users/resetPassword", passwordForm, {withCredentials: true})
+        .then((resp) => {
+            if (resp.data.status == 200) {
+                showSnackbar('showPasswordReset'); 
+                showPopup('changepassword', false)
+            }
+            else {
+                showSnackbar("invalidPass")
+            }
+            
+        })
+        .catch((e) => showSnackbar("apiError"))
+    }
 
-<script>
     function redirectToDashboard() {
         window.location.href = 'dashboard.html';
     }
@@ -201,7 +228,7 @@
         window.location.href = 'profile.html';
     }
     function openPhone(phoneNumber) {
-    window.open("tel:" + phoneNumber);
-}
+        window.open("tel:" + phoneNumber);
+    }
 </script>
 

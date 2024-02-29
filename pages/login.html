@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height" />
     <link rel="stylesheet" href="/styles/logincomponent.css">
     <link rel="stylesheet" href="/styles/tnc.css">
     <link rel="stylesheet" href="/styles/styles.css">
@@ -18,7 +18,7 @@
     </header>
 
     <div class="main-body">
-        <form class="form-container">
+        <form class="form-container" onsubmit="login(event)">
             <h2>User Login</h2>
     
             <input type="text" id="username" class="form-input" required placeholder="Username">
@@ -31,7 +31,7 @@
                 </div>
             </div>
     
-            <input class="form-button" type="submit" value="Login" onclick="showSnackbar('showInvalidUsername')">
+            <input class="form-button" type="submit" value="Login">
     
             <a class="forgot-password" href="forgot_password.html">Forgot Password?</a>
     
@@ -54,14 +54,23 @@
 
         <snackbar-component snackbarId="showInvalidUsername">Invalid Username</snackbar-component>
         <snackbar-component snackbarId="showInvalidPassword">Invalid Password</snackbar-component>
-        <snackbar-component snackbarId="showInvalidPassword">Invalid Captcha</snackbar-component>
+
+        <snackbar-component snackbarId="invalidLogin">Invalid Login</snackbar-component>
+        <snackbar-component snackbarId="sessionLost">User session lost</snackbar-component>
+        <snackbar-component snackbarId="apiError">API Error</snackbar-component>
+        <snackbar-component snackbarId="invalidCaptcha">Invalid Captcha</snackbar-component>
+
+        <snackbar-component snackbarId="logout">User successfully logged out</snackbar-component>
 
     </div>
 
 </body>
 </html>
 
-<script src="/captcha.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js"></script>
+<script src="/app.js"></script>
+<script src="/scripts/captcha.js"></script>
 <script src="/scripts/footerHTML.js"></script>
 
 <script>
@@ -79,4 +88,36 @@
             showSnackbar(prevEvent)
         }
     };
+
+    async function login(event) {
+        event.preventDefault()
+
+        if (await checkCaptcha()) {
+            const username = event.target.querySelector("#username").value;
+            const password = event.target.querySelector("#password").value;
+
+            const loginForm = new FormData()
+            loginForm.append("username", username)
+            loginForm.append("password", password)
+
+            await axios.post(apiLink + "users/users/login", loginForm, {withCredentials: true})
+            .then((resp) => {
+                console.log(resp)
+                if (resp.data.status == 200) {
+                    pageRouting("dashboard.html")  
+                }
+                else {
+                    showSnackbar("invalidLogin")
+                }
+            })
+            .catch((e) => {
+                console.log(e)
+                showSnackbar("apiError")
+            })
+        }
+        else {
+            showSnackbar("invalidCaptcha")
+        }
+        
+    }
 </script>

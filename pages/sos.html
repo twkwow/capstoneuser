@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height" />
     <link rel="stylesheet" href="/styles/dashboard.css">
     <link rel="stylesheet" href="/styles/styles.css">
     <link rel="stylesheet" href="/styles/footer.css">
@@ -98,7 +98,7 @@
                                     <textarea id="content" class="announcements-textarea" rows="6" placeholder="Add your text"></textarea>
                                 </div>
                                 <div class="send-button" >
-                                    <button onclick="showSnackbar('showSentMsg')">Submit</button>
+                                    <button onclick="uploadMessage()">Submit</button>
                                 </div>
                             </div>
                         </div>
@@ -143,14 +143,34 @@
         </div>
     </div>
 
-    <snackbar-component snackbarId="showSentMsg">Message sent to admin</snackbar-component>
-
-
-
+    <snackbar-component snackbarId="sentMsg">Message sent to admin</snackbar-component>
+    <snackbar-component snackbarId="noMsg">Please enter a your text before submitting</snackbar-component>
+    <snackbar-component snackbarId="apiError">API Error</snackbar-component>
 </body>
 </html>
 
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="/app.js"></script>
+
 <script>
+    checkToken()
+
+    async function uploadMessage() {
+        const message = document.getElementById("content").value
+
+        if (message) {
+            const messageForm = new FormData()
+            messageForm.append("message", message)
+            await axios.post(apiLink + "users/usersApp/notifyAdmin", messageForm, { withCredentials: true })
+            .then (() => showSnackbar("sentMsg"))
+            .catch( () => showSnackbar("apiError"))
+        }
+        else {
+            showSnackbar("noMsg")
+        }
+        
+    }
+
     function redirectToDashboard() {
         window.location.href = 'dashboard.html';
     }
