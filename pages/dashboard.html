@@ -5,9 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height" />
     <link rel="stylesheet" href="/styles/dashboard.css">
+    <link rel="stylesheet" href="/styles/logincomponent.css">
     <link rel="stylesheet" href="/styles/styles.css">
     <link rel="stylesheet" href="/styles/footer.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+    <script src="/components/snackbarNotification.js" type="text/javascript" defer></script>
 </head>
 
 <body>
@@ -103,7 +105,7 @@
 
     <div class="footer-body">
         <div class="footer">
-            <div class="dashboard-container" onclick="redirectToDashboard()" style="background-color: lightgrey;">
+            <div class="dashboard-container" onclick="pageRouting('dashboard.html')" style="background-color: lightgrey;">
                 <div class="icon-lol">
                     <i class="fa-solid fa-table-columns"></i>
                 </div>
@@ -112,7 +114,7 @@
                 </div>
             </div>
 
-            <div class="sos-container" onclick="redirectToSOS()">
+            <div class="sos-container" onclick="pageRouting('sos.html')">
                 <div class="icon-lol">
                     <i class="fa-solid fa-hand-holding-medical"></i>
                 </div>
@@ -121,7 +123,7 @@
                 </div>
             </div>
 
-            <div class="profile-container" onclick="redirectToProfile()">
+            <div class="profile-container" onclick="pageRouting('profile.html')">
                 <div class="icon-lol">
                     <i class="fa-solid fa-user"></i>
                 </div>
@@ -132,8 +134,7 @@
         </div>
     </div>
 
-
-
+    <snackbar-component snackbarId="apiError">API Error</snackbar-component>
 </body>
 </html>
 
@@ -143,38 +144,43 @@
 
 <script>
     loadData()
+    setInterval(loadData, refreshTime)
+
     async function loadData() {
         await checkToken()
         await getAnnouncements()
+        await getUserData()
 
-        document.getElementById("lockerLastUse").innerHTML = moment(userProfile.locker_id.last_used).format("dddd, DD MMMM yyyy, h:mma")
-        document.getElementById("lockerLocation").innerHTML = userProfile.locker_id.location.address
-        document.getElementById("lockerDoorStatus").innerHTML = userProfile.locker_id.door_status ? `<span style="color: green;">Open</span>` : `<span style="color: red;">Closed</span>`
+        console.log("Load data")
+    }
 
-        let recentActivityHTML = ""
-        userProfile.recent_activity.forEach( (data) => {
-            recentActivityHTML = `
-            <div class="ann-content-container">
-                <div class="ann-send-content">
-                    ${data.activity}
+    async function getUserData() {
+        await axios.get(apiLink + "users/usersApp/getUserData", { withCredentials: true})
+        .then( (resp) => {
+            const userProfile = resp.data.userData
+            document.getElementById("lockerLastUse").innerHTML = userProfile.locker_id?.last_used ? moment(userProfile.locker_id.last_used).format("dddd, DD MMMM yyyy, h:mma") : "N/A"
+            document.getElementById("lockerLocation").innerHTML = userProfile.locker_id?.location.address || "N/A"
+            document.getElementById("lockerDoorStatus").innerHTML = JSON.stringify(userProfile.locker_id?.door_status) ? userProfile.locker_id?.door_status ? `<span style="color: green;">Open</span>` : `<span style="color: red;">Closed</span>` : "N/A"
+
+            let recentActivityHTML = ""
+            userProfile.recent_activity.forEach( (data) => {
+                recentActivityHTML = `
+                <div class="ann-content-container">
+                    <div class="ann-send-content">
+                        ${data.activity}
+                    </div>
+                    <div class="ann-send-date">
+                        ${moment(data.timestamp).format("DD MMMM yyyy  hh:mma")}
+                    </div>
                 </div>
-                <div class="ann-send-date">
-                    ${moment(data.timestamp).format("DD MMMM yyyy  hh:mma")}
-                </div>
-            </div>
-            `
+                `
+            })
+            document.getElementById("recentActivity").innerHTML = recentActivityHTML
         })
-        document.getElementById("recentActivity").innerHTML = recentActivityHTML
-    }
-
-    function redirectToDashboard() {
-        window.location.href = 'dashboard.html';
-    }
-    function redirectToSOS() {
-        window.location.href = 'sos.html';
-    }
-    function redirectToProfile() {
-        window.location.href = 'profile.html';
+        .catch( (e) => {
+            console.log(e)
+            showSnackbar("apiError")
+        })
     }
     
     async function getAnnouncements() {

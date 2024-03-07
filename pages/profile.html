@@ -168,18 +168,32 @@
 
 <script>
     loadData()
+    setInterval(loadData, refreshTime)
     document.getElementById('tocContent').innerHTML = tnc
     document.getElementById('privacyContent').innerHTML = privacy
     document.getElementById('disclaimerContent').innerHTML = disclaimer
 
     async function loadData() {
         await checkToken()
-        document.getElementById("name").innerHTML = userProfile.name
-        document.getElementById("username").innerHTML = userProfile.web_data.username
-        document.getElementById("email").innerHTML = userProfile.web_data.email
-        document.getElementById("phone").innerHTML = userProfile.phone
-        document.getElementById("locker").innerHTML = userProfile.locker_id._id
-        document.getElementById("lastLogged").innerHTML = userProfile.last_login
+        await getUserData()
+        console.log("Load Data")
+    }
+
+    async function getUserData() {
+        await axios.get(apiLink + "users/usersApp/getUserData", { withCredentials: true})
+        .then( (resp) => {
+            const userProfile = resp.data.userData
+            document.getElementById("name").innerHTML = userProfile.name
+            document.getElementById("username").innerHTML = userProfile.web_data.username
+            document.getElementById("email").innerHTML = userProfile.web_data.email
+            document.getElementById("phone").innerHTML = userProfile.phone
+            document.getElementById("locker").innerHTML = userProfile.locker_id?._id || "N/A"
+            document.getElementById("lastLogged").innerHTML = userProfile.last_login || "N/A"
+        })
+        .catch( (e) => {
+            console.log(e)
+            showSnackbar("apiError")
+        })
     }
 
     async function logout() {
