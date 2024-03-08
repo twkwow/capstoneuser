@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="/styles/logincomponent.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
     <script src="/components/snackbarNotification.js" type="text/javascript" defer></script>
+    <script src="/components/navigation.js" type="text/javascript" defer></script>
 </head>
 
 <body>
@@ -112,36 +113,7 @@
     </div>
     
 
-    <div class="footer-body">
-        <div class="footer">
-            <div class="dashboard-container" onclick="redirectToDashboard()">
-                <div class="icon-lol">
-                    <i class="fa-solid fa-table-columns"></i>
-                </div>
-                <div class="text-lol">
-                    <span>Dashboard</span>
-                </div>
-            </div>
-
-            <div class="sos-container" onclick="redirectToSOS()" style="background-color: lightgrey;">
-                <div class="icon-lol">
-                    <i class="fa-solid fa-hand-holding-medical"></i>
-                </div>
-                <div class="text-lol">
-                    <span>SOS</span>
-                </div>
-            </div>
-
-            <div class="profile-container" onclick="redirectToProfile()">
-                <div class="icon-lol">
-                    <i class="fa-solid fa-user"></i>
-                </div>
-                <div class="text-lol">
-                    <span>Profile</span>
-                </div>
-            </div>
-        </div>
-    </div>
+    <navigation-component></navigation-component>
 
     <snackbar-component snackbarId="sentMsg">Message sent to admin</snackbar-component>
     <snackbar-component snackbarId="noMsg">Please enter a your text before submitting</snackbar-component>
@@ -168,7 +140,6 @@
         else {
             showSnackbar("noMsg")
         }
-        
     }
 
     function redirectToDashboard() {

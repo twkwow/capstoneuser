@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="/styles/footer.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
     <script src="/components/snackbarNotification.js" type="text/javascript" defer></script>
+    <script src="/components/navigation.js" type="text/javascript" defer></script>
 </head>
 
 <body>
@@ -108,36 +109,7 @@
         </div>
     </div>
 
-    <div class="footer-body">
-        <div class="footer">
-            <div class="dashboard-container" onclick="pageRouting('dashboard.html')" style="background-color: lightgrey;">
-                <div class="icon-lol">
-                    <i class="fa-solid fa-table-columns"></i>
-                </div>
-                <div class="text-lol">
-                    <span>Dashboard</span>
-                </div>
-            </div>
-
-            <div class="sos-container" onclick="pageRouting('sos.html')">
-                <div class="icon-lol">
-                    <i class="fa-solid fa-hand-holding-medical"></i>
-                </div>
-                <div class="text-lol">
-                    <span>SOS</span>
-                </div>
-            </div>
-
-            <div class="profile-container" onclick="pageRouting('profile.html')">
-                <div class="icon-lol">
-                    <i class="fa-solid fa-user"></i>
-                </div>
-                <div class="text-lol">
-                    <span>Profile</span>
-                </div>
-            </div>
-        </div>
-    </div>
+    <navigation-component></navigation-component>
 
     <snackbar-component snackbarId="lockerOpened">Locker Opened</snackbar-component>
     <snackbar-component snackbarId="apiError">API Error</snackbar-component>
