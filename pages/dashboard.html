@@ -3,11 +3,14 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height" />
     <link rel="stylesheet" href="/styles/dashboard.css">
+    <link rel="stylesheet" href="/styles/logincomponent.css">
     <link rel="stylesheet" href="/styles/styles.css">
     <link rel="stylesheet" href="/styles/footer.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+    <script src="/components/snackbarNotification.js" type="text/javascript" defer></script>
+    <script src="/components/navigation.js" type="text/javascript" defer></script>
 </head>
 
 <body>
@@ -37,55 +40,16 @@
                     <div class="ann-title">
                         Announcements
                     </div>
-                    <div class="ann-content">
-                        <div class="ann-content-container">
-                            <div class="ann-sender-name">
-                                <span>Admin Username</span>
-                            </div>
-                            <div class="ann-send-title">
-                                <span>Maintenance today</span>
-                            </div>
-                            <div class="ann-send-content">
-                                <span>Tsifakjlkdsfasafaddsfasfsadadsadsadsadsadsadasddafasdjlfkdsfjasdlkfsdajklfakfl;adsdsk;fldasfksad;lfk;aklfaksd;dlaskdsal;adasdj anfdja fuckhahaTsifakjlkdsfj anfdja fuckhaha</span>
-                            </div>
-                            <div class="ann-send-date">
-                                <span>27 Febraury 2024 6:50pm</span>
-                            </div>
-                        </div>
-
-                        <div class="ann-content-container">
-                            <div class="ann-sender-name">
-                                <span>Admin Username</span>
-                            </div>
-                            <div class="ann-send-title">
-                                <span>Maintenance today</span>
-                            </div>
-                            <div class="ann-send-content">
-                                <span>Tsifakjlkdsfasafaddsfasfsadadsadsadsadsadsadasddafasdjlfkdsfjasdlkfsdajklfakfl;adsdsk;fldasfksad;lfk;aklfaksd;dlaskdsal;adasdj anfdja fuckhahaTsifakjlkdsfj anfdja fuckhaha</span>
-                            </div>
-                            <div class="ann-send-date">
-                                <span>27 Febraury 2024 6:50pm</span>
-                            </div>
-                        </div>
-                        
-
-                        <div class="ann-content-container">
-                            <div class="ann-sender-name">
-                                <span>Admin Username</span>
-                            </div>
-                            <div class="ann-send-title">
-                                <span>Maintenance today</span>
-                            </div>
-                            <div class="ann-send-content">
-                                <span>Tsifakjlkdsfj anfdja fuckhahaTsifakjlkdsfj anfdja fuckhaha</span>
-                            </div>
-                            <div class="ann-send-date">
-                                <span>27 Febraury 2024 6:50pm</span>
-                            </div>
-                        </div>
+                    <div id="annoucementsContainer" class="ann-content">
+                        <!-- Annoucements here -->
                     </div>
                 </div>
             </div>
+
+            <div id="openLockerButton">
+                
+            </div>
+            
 
             <div class="locker-status-container">
                 <div class="status-container">
@@ -101,27 +65,22 @@
                                 <i class="fa-solid fa-clock" style="width:15px;"></i>
                                 <span>Locker Last Time Used</span>
                             </div>
-                            <div class="locker-text-content">
-                                <span>Wednesday, 24 January 2024, 6:55pm</span>
-                            </div>
+                            <div id="lockerLastUse" class="locker-text-content"></div>
 
                             <div class="locker-send-title">
                                 <i class="fa-solid fa-location-dot" style="width:15px;"></i>
                                 <span>Locker In Used</span>
                             </div>
-                            <div class="locker-text-content">
-                                <span>FUCKER_LOCKER_ID_NAME</span>
+                            <div id="lockerLocation" class="locker-text-content">
+                                <!-- <span>FUCKER_LOCKER_ID_NAME</span> -->
                             </div>
 
                             <div class="locker-send-title">
                                 <i class="fa-solid fa-door-open" style="width:15px;"></i>
                                 <span>Locker Door Status</span>
                             </div>
-
                             <!--show either one-->
-                            <div class="locker-text-content">
-                                <span style="color: red;">Open</span> <span style="color: green;">Closed</span>
-                            </div>
+                            <div id="lockerDoorStatus" class="locker-text-content"></div>
                             
                         </div>
                     </div>
@@ -134,35 +93,9 @@
                         <i class="fa-solid fa-bell"></i>
                     </div>
                     <div class="ann-title">
-                        Notifications
+                        Recent Activity
                     </div>
-                    <div class="ann-content">
-                        <div class="ann-content-container">
-                            <div class="ann-send-content">
-                                <span>Locker Opened at LOCKER_ID_NAME_FUCK</span>
-                            </div>
-                            <div class="ann-send-date">
-                                <span>27 Febraury 2024 6:50pm</span>
-                            </div>
-                        </div>
-
-                        <div class="ann-content-container">
-                            <div class="ann-send-content">
-                                <span>Locker Terminated at LOCKER_ID_NAME_FUCK</span>
-                            </div>
-                            <div class="ann-send-date">
-                                <span>27 Febraury 2024 6:50pm</span>
-                            </div>
-                        </div>
-
-                        <div class="ann-content-container">
-                            <div class="ann-send-content">
-                                <span>Assigned LOCKER_ID_NAME_FUCK</span>
-                            </div>
-                            <div class="ann-send-date">
-                                <span>27 Febraury 2024 6:50pm</span>
-                            </div>
-                        </div>
+                    <div id="recentActivity" class="ann-content">
 
                     </div>
                     
@@ -176,50 +109,107 @@
         </div>
     </div>
 
-    <div class="footer-body">
-        <div class="footer">
-            <div class="dashboard-container" onclick="redirectToDashboard()" style="background-color: lightgrey;">
-                <div class="icon-lol">
-                    <i class="fa-solid fa-table-columns"></i>
-                </div>
-                <div class="text-lol">
-                    <span>Dashboard</span>
-                </div>
-            </div>
+    <navigation-component></navigation-component>
 
-            <div class="sos-container" onclick="redirectToSOS()">
-                <div class="icon-lol">
-                    <i class="fa-solid fa-hand-holding-medical"></i>
-                </div>
-                <div class="text-lol">
-                    <span>SOS</span>
-                </div>
-            </div>
-
-            <div class="profile-container" onclick="redirectToProfile()">
-                <div class="icon-lol">
-                    <i class="fa-solid fa-user"></i>
-                </div>
-                <div class="text-lol">
-                    <span>Profile</span>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-
+    <snackbar-component snackbarId="lockerOpened">Locker Opened</snackbar-component>
+    <snackbar-component snackbarId="apiError">API Error</snackbar-component>
 </body>
 </html>
 
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.30.1/moment.min.js"></script>
+<script src="/app.js"></script>
+
 <script>
-    function redirectToDashboard() {
-        window.location.href = 'dashboard.html';
+    loadData()
+    setInterval(loadData, refreshTime)
+
+    async function loadData() {
+        await checkToken()
+        await getAnnouncements()
+        await getUserData()
+
+        console.log("Load data")
     }
-    function redirectToSOS() {
-        window.location.href = 'sos.html';
+
+    async function getUserData() {
+        await axios.get(apiLink + "users/usersApp/getUserData", { withCredentials: true})
+        .then( (resp) => {
+            const userProfile = resp.data.userData
+
+            if (userProfile.locker_id){
+                document.getElementById("openLockerButton").innerHTML = `
+                    <div class="open-locker-container">
+                        <button class="open-locker-button" onclick="openLocker()">Open Locker</button>
+                    </div>
+                `
+            }
+            
+
+            document.getElementById("lockerLastUse").innerHTML = userProfile.locker_id?.last_used ? moment(userProfile.locker_id.last_used).format("dddd, DD MMMM yyyy, h:mma") : "N/A"
+            document.getElementById("lockerLocation").innerHTML = userProfile.locker_id?.location.address || "N/A"
+            document.getElementById("lockerDoorStatus").innerHTML = JSON.stringify(userProfile.locker_id?.door_status) ? userProfile.locker_id?.door_status ? `<span style="color: green;">Open</span>` : `<span style="color: red;">Closed</span>` : "N/A"
+
+            let recentActivityHTML = ""
+            userProfile.recent_activity.forEach( (data) => {
+                recentActivityHTML = `
+                <div class="ann-content-container">
+                    <div class="ann-send-content">
+                        ${data.activity}
+                    </div>
+                    <div class="ann-send-date">
+                        ${moment(data.timestamp).format("DD MMMM yyyy  hh:mma")}
+                    </div>
+                </div>
+                `
+            })
+            document.getElementById("recentActivity").innerHTML = recentActivityHTML
+        })
+        .catch( (e) => {
+            console.log(e)
+            showSnackbar("apiError")
+        })
     }
-    function redirectToProfile() {
-        window.location.href = 'profile.html';
+    
+    async function getAnnouncements() {
+        await axios.get(apiLink + "users/usersApp/getAnnouncements")
+        .then( (resp) => {
+            const annoucements = resp.data.ann
+            let annoucementsHTML = ""
+            annoucements.forEach( (data) => {
+                annoucementsHTML += `
+                <div class="ann-content-container">
+                    <div class="ann-sender-name">
+                        <span>${data.admin.username}</span>
+                    </div>
+                    <div class="ann-send-title">
+                        <span>${data.title}</span>
+                    </div>
+                    <div class="ann-send-content">
+                        <span>${data.content}</span>
+                    </div>
+                    <div class="ann-send-date">
+                        <span>${moment(data.timestamp).format("DD-MM-yyyy hh:mm:ss a")}</span>
+                    </div>
+                </div>
+                `
+            })
+            document.getElementById("annoucementsContainer").innerHTML = annoucementsHTML
+        })
+        .catch( (e) => {
+            console.log(e)
+            showSnackbar("apiError")
+        })
+    }
+
+    async function openLocker() {
+        await axios.get(apiLink + "users/usersApp/openLocker", { withCredentials: true })
+        .then(() => {
+            showSnackbar("lockerOpened")
+        })
+        .catch( (e) => {
+            console.log(e)
+            showSnackbar("apiError")
+        })
     }
 </script>

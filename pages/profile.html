@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height" />
     <link rel="stylesheet" href="/styles/dashboard.css">
     <link rel="stylesheet" href="/styles/styles.css">
     <link rel="stylesheet" href="/styles/tnc.css">
@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
     <script src="/components/snackbarNotification.js" type="text/javascript" defer></script>
     <script src="/components/popupModal.js" type="text/javascript" defer></script>
+    <script src="/components/navigation.js" type="text/javascript" defer></script>
 </head>
 
 <body>
@@ -63,25 +64,12 @@
                         </div>
                     </div>
                     <div class="right-container-lol">
-                        <div class="profile-text-right">
-                            <span>Then wen</span>
-                        </div>
-                        <div class="profile-text-right">
-                            <span>USER_ID_LOL</span>
-                        </div>
-                        <div class="profile-text-right">
-                            <span>wenkanglol444@gmail.com</span>
-                        </div>
-                        <div class="profile-text-right">
-                            <span>0183333333</span>
-                        </div>
-                        <div class="profile-text-right">
-                            <span>LOCKER_ID_LOL</span>
-                        </div>
-                        <div class="profile-text-right">
-                            <span>24 February 2024, 5:55pm</span>
-                        </div>
-
+                        <div id="name" class="profile-text-right"></div>
+                        <div id="username" class="profile-text-right"></div>
+                        <div id="email" class="profile-text-right"></div>
+                        <div id="phone" class="profile-text-right"></div>
+                        <div id="locker" class="profile-text-right"></div>
+                        <div id="lastLogged" class="profile-text-right"></div>
                     </div>
                 </div>
 
@@ -89,7 +77,7 @@
                     <button>Change Password</button>
                 </div>
                 <div class="logout-ez">
-                    <button>Logout</button>
+                    <button onclick="logout()">Logout</button>
                 </div>
             </div>
             
@@ -109,18 +97,18 @@
                 <div class="password-field-container">
                     <input type="password" id="confirm-field" placeholder="Confirm New Password">
                 </div>
-                <div class="password-reset-btn" onclick="showSnackbar('showPasswordReset'); showPopup('changepassword', false)">
-                    <button>Rest</button>
+                <div class="password-reset-btn" onclick="resetPassword()">
+                    <button>Reset</button>
                 </div>
             </popupmodal-component>
 
-            <footer class="footer-terms">
+            <div class="footer-terms">
                 <span onclick="showPopup('tos', true)">Terms of Services</span>
                 &nbsp; | &nbsp;
                 <span onclick="showPopup('privacy', true)">Privacy Policy</span>
                 &nbsp; | &nbsp;
                  <span onclick="showPopup('disclaimer', true)">Disclaimer</span>      	
-            </footer>
+            </div>
 
             <popupmodal-component modalId="changepassword"></popupmodal-component>
             <popupmodal-component modalId="tos"><div id="tocContent"></div></popupmodal-component>
@@ -129,79 +117,89 @@
 
             <snackbar-component snackbarId="showPasswordFieldEmpty">Fields Cannot Be Empty</snackbar-component>
             <snackbar-component snackbarId="showPasswordReset">Successfully reset password</snackbar-component>
+            <snackbar-component snackbarId="newPassNoMatch">New password not matching</snackbar-component>
+            <snackbar-component snackbarId="invalidPass">invalidPassword</snackbar-component>
+            <snackbar-component snackbarId="apiError">API error</snackbar-component>
+
         </div>
-
-
-
     </div>
     
 
-    <div class="footer-body">
-        <div class="footer">
-            <div class="dashboard-container" onclick="redirectToDashboard()">
-                <div class="icon-lol">
-                    <i class="fa-solid fa-table-columns"></i>
-                </div>
-                <div class="text-lol">
-                    <span>Dashboard</span>
-                </div>
-            </div>
-
-            <div class="sos-container" onclick="redirectToSOS()">
-                <div class="icon-lol">
-                    <i class="fa-solid fa-hand-holding-medical"></i>
-                </div>
-                <div class="text-lol">
-                    <span>SOS</span>
-                </div>
-            </div>
-
-            <div class="profile-container" onclick="redirectToProfile" style="background-color: lightgrey;">
-                <div class="icon-lol">
-                    <i class="fa-solid fa-user"></i>
-                </div>
-                <div class="text-lol">
-                    <span>Profile</span>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-
-
+    <navigation-component></navigation-component>
 
 </body>
 </html>
 
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.30.1/moment.min.js"></script>
+<script src="/app.js"></script>
 <script src="/scripts/footerHTML.js"></script>
+
 <script>
-    window.onload = () => {
-        document.getElementById('tocContent').innerHTML = tnc
-        document.getElementById('privacyContent').innerHTML = privacy
-        document.getElementById('disclaimerContent').innerHTML = disclaimer
+    loadData()
+    setInterval(loadData, refreshTime)
+    document.getElementById('tocContent').innerHTML = tnc
+    document.getElementById('privacyContent').innerHTML = privacy
+    document.getElementById('disclaimerContent').innerHTML = disclaimer
 
+    async function loadData() {
+        await checkToken()
+        await getUserData()
+        console.log("Load Data")
+    }
 
-        const params = new URLSearchParams(location.search);
-        const prevEvent = params.get("event");
-        if (prevEvent) {
-            showSnackbar(prevEvent)
+    async function getUserData() {
+        await axios.get(apiLink + "users/usersApp/getUserData", { withCredentials: true})
+        .then( (resp) => {
+            const userProfile = resp.data.userData
+            document.getElementById("name").innerHTML = userProfile.name
+            document.getElementById("username").innerHTML = userProfile.web_data.username
+            document.getElementById("email").innerHTML = userProfile.web_data.email
+            document.getElementById("phone").innerHTML = userProfile.phone
+            document.getElementById("locker").innerHTML = userProfile.locker_id?._id || "N/A"
+            document.getElementById("lastLogged").innerHTML = userProfile.web_data.last_login ? moment(userProfile.web_data.last_login).format("DD MMMM yyyy  hh:mma") : "N/A"
+        })
+        .catch( (e) => {
+            console.log(e)
+            showSnackbar("apiError")
+        })
+    }
+
+    async function logout() {
+        await axios.get(apiLink + "users/usersApp/logout", {withCredentials: true})
+        .then( (resp) => {
+            pageRouting("login.html?event=logout")
+        })
+    }
+
+    async function resetPassword() {
+        const curPass = document.getElementById("current-field").value
+        const newPass = document.getElementById("new-field").value
+        const newPassRe = document.getElementById("confirm-field").value
+
+        if (curPass == "" || newPass == "" || newPassRe == "") {
+            return showSnackbar("showPasswordFieldEmpty")
         }
-    };
-</script>
+        if (newPass != newPassRe) {
+            return showSnackbar("newPassNoMatch")
+        }
+        
+        const passwordForm = new FormData()
+        passwordForm.append("curPass", curPass)
+        passwordForm.append("newPass", newPass)
+        await axios.post(apiLink + "users/users/resetPassword", passwordForm, {withCredentials: true})
+        .then((resp) => {
+            if (resp.data.status == 200) {
+                showSnackbar('showPasswordReset'); 
+                showPopup('changepassword', false)
+            }
+            else {
+                showSnackbar("invalidPass")
+            }
+            
+        })
+        .catch((e) => showSnackbar("apiError"))
+    }
 
-<script>
-    function redirectToDashboard() {
-        window.location.href = 'dashboard.html';
-    }
-    function redirectToSOS() {
-        window.location.href = 'sos.html';
-    }
-    function redirectToProfile() {
-        window.location.href = 'profile.html';
-    }
-    function openPhone(phoneNumber) {
-    window.open("tel:" + phoneNumber);
-}
 </script>
 

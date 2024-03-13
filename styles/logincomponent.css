@@ -104,7 +104,7 @@ h2 {
     left: 0;
     height: 100vh; /* Full height of the viewport */
     width: 100%; /* Full width of the viewport */
-    z-index: 999; /* Ensure the backdrop is above other content */
+    z-index: 15; /* Ensure the backdrop is above other content */
     visibility: hidden; /* Initially hidden */
 }
 
@@ -146,7 +146,7 @@ h2 {
     text-align: center;
     border-radius: 2px;
     padding: 16px;
-    z-index:5;
+    z-index: 20;
     top: 30px;
     font-size: 17px;
     position: fixed;

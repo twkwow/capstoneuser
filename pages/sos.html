@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height" />
     <link rel="stylesheet" href="/styles/dashboard.css">
     <link rel="stylesheet" href="/styles/styles.css">
     <link rel="stylesheet" href="/styles/footer.css">
@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="/styles/logincomponent.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
     <script src="/components/snackbarNotification.js" type="text/javascript" defer></script>
+    <script src="/components/navigation.js" type="text/javascript" defer></script>
 </head>
 
 <body>
@@ -98,7 +99,7 @@
                                     <textarea id="content" class="announcements-textarea" rows="6" placeholder="Add your text"></textarea>
                                 </div>
                                 <div class="send-button" >
-                                    <button onclick="showSnackbar('showSentMsg')">Submit</button>
+                                    <button onclick="uploadMessage()">Submit</button>
                                 </div>
                             </div>
                         </div>
@@ -112,45 +113,35 @@
     </div>
     
 
-    <div class="footer-body">
-        <div class="footer">
-            <div class="dashboard-container" onclick="redirectToDashboard()">
-                <div class="icon-lol">
-                    <i class="fa-solid fa-table-columns"></i>
-                </div>
-                <div class="text-lol">
-                    <span>Dashboard</span>
-                </div>
-            </div>
+    <navigation-component></navigation-component>
 
-            <div class="sos-container" onclick="redirectToSOS()" style="background-color: lightgrey;">
-                <div class="icon-lol">
-                    <i class="fa-solid fa-hand-holding-medical"></i>
-                </div>
-                <div class="text-lol">
-                    <span>SOS</span>
-                </div>
-            </div>
-
-            <div class="profile-container" onclick="redirectToProfile()">
-                <div class="icon-lol">
-                    <i class="fa-solid fa-user"></i>
-                </div>
-                <div class="text-lol">
-                    <span>Profile</span>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <snackbar-component snackbarId="showSentMsg">Message sent to admin</snackbar-component>
-
-
-
+    <snackbar-component snackbarId="sentMsg">Message sent to admin</snackbar-component>
+    <snackbar-component snackbarId="noMsg">Please enter a your text before submitting</snackbar-component>
+    <snackbar-component snackbarId="apiError">API Error</snackbar-component>
 </body>
 </html>
 
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="/app.js"></script>
+
 <script>
+    checkToken()
+
+    async function uploadMessage() {
+        const message = document.getElementById("content").value
+
+        if (message) {
+            const messageForm = new FormData()
+            messageForm.append("message", message)
+            await axios.post(apiLink + "users/usersApp/notifyAdmin", messageForm, { withCredentials: true })
+            .then (() => showSnackbar("sentMsg"))
+            .catch( () => showSnackbar("apiError"))
+        }
+        else {
+            showSnackbar("noMsg")
+        }
+    }
+
     function redirectToDashboard() {
         window.location.href = 'dashboard.html';
     }
