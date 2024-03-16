@@ -145,14 +145,13 @@
                 `
             }
             
-
             document.getElementById("lockerLastUse").innerHTML = userProfile.locker_id?.last_used ? moment(userProfile.locker_id.last_used).format("dddd, DD MMMM yyyy, h:mma") : "N/A"
             document.getElementById("lockerLocation").innerHTML = userProfile.locker_id?.location.address || "N/A"
             document.getElementById("lockerDoorStatus").innerHTML = JSON.stringify(userProfile.locker_id?.door_status) ? userProfile.locker_id?.door_status ? `<span style="color: green;">Open</span>` : `<span style="color: red;">Closed</span>` : "N/A"
 
             let recentActivityHTML = ""
             userProfile.recent_activity.forEach( (data) => {
-                recentActivityHTML = `
+                recentActivityHTML += `
                 <div class="ann-content-container">
                     <div class="ann-send-content">
                         ${data.activity}
