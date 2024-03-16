@@ -119,7 +119,7 @@ html, body {
 }
 
 .locker-status-container {
-    height: 210px;
+    height: 270px;
     background-color: whitel;
 }
 
@@ -170,16 +170,16 @@ html, body {
     display: flex;
     justify-content: center;
     background-color: white;
-    padding: 15px 20px;
 }
 
 .open-locker-button {
     width: 100%;
     padding: 10px 0;
-    border-radius: 10px;
-    border: 1px solid lightgray;
+    border-radius: 5px;
+    border: 1px solid #007bff;
     font-size: 18px;
-    background-color: lightgrey;
+    background-color: #007bff;
+    color: white;
 }
 
 .open-locker-button:active {
