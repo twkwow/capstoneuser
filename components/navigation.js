@@ -7,7 +7,7 @@ class Navigation extends HTMLElement {
 		this.innerHTML = `
         <div class="footer-body">
             <div class="footer">
-                <div class="dashboard-container" onclick="pageRouting('dashboard.html')" style="background-color: lightgrey;">
+                <div class="dashboard-container" onclick="pageRouting('dashboard.html')" >
                     <div class="icon-lol">
                         <i class="fa-solid fa-table-columns"></i>
                     </div>
