@@ -7,7 +7,7 @@ class Navigation extends HTMLElement {
 		this.innerHTML = `
         <div class="footer-body">
             <div class="footer">
-                <div class="dashboard-container" onclick="pageRouting('dashboard.html')" style="background-color: lightgrey;">
+                <div class="dashboard-container" onclick="pageRouting('dashboard.html')"  ${window.location.href.includes("dashboard")? 'style="background-color: lightgrey"': 'null'}>
                     <div class="icon-lol">
                         <i class="fa-solid fa-table-columns"></i>
                     </div>
@@ -16,7 +16,7 @@ class Navigation extends HTMLElement {
                     </div>
                 </div>
 
-                <div class="sos-container" onclick="pageRouting('sos.html')">
+                <div class="sos-container" onclick="pageRouting('sos.html')" ${window.location.href.includes("sos")? 'style="background-color: lightgrey"': 'null'}>
                     <div class="icon-lol">
                         <i class="fa-solid fa-hand-holding-medical"></i>
                     </div>
@@ -25,7 +25,7 @@ class Navigation extends HTMLElement {
                     </div>
                 </div>
 
-                <div class="profile-container" onclick="pageRouting('profile.html')">
+                <div class="profile-container" onclick="pageRouting('profile.html')" ${window.location.href.includes("profile")? 'style="background-color: lightgrey"': 'null'}>
                     <div class="icon-lol">
                         <i class="fa-solid fa-user"></i>
                     </div>
