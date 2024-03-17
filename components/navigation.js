@@ -21,7 +21,7 @@ class Navigation extends HTMLElement {
                         <i class="fa-solid fa-hand-holding-medical"></i>
                     </div>
                     <div class="text-lol">
-                        <span>SOS</span>
+                        <span>Emergency</span>
                     </div>
                 </div>
 
