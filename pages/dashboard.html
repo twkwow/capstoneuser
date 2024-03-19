@@ -152,7 +152,7 @@
             document.getElementById("lockerDoorStatus").innerHTML = JSON.stringify(userProfile.locker_id?.door_status) ? userProfile.locker_id?.door_status ? `<span style="color: green;">Open</span>` : `<span style="color: red;">Closed</span>` : "N/A"
 
             let recentActivityHTML = ""
-            userProfile.recent_activity.forEach( (data) => {
+            userProfile.recent_activity.reverse().forEach( (data) => {
                 recentActivityHTML += `
                 <div class="ann-content-container">
                     <div class="ann-send-content">
