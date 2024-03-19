@@ -150,7 +150,8 @@ h2 {
     top: 30px;
     font-size: 17px;
     position: fixed;
-    margin-left: 9%;
+    margin-left: 12%;
+    /* margin-left: 9%; */
 }
   
 .show {
